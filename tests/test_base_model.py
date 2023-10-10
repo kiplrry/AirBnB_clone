@@ -61,7 +61,6 @@ class TestBaseModel(unittest.TestCase):
     def test_invalid_iso(self):
         model3 = BaseModel()
         dict1 = model3.to_dict()
-        print(f"dict= {dict1}")
         dict1["created_at"] = "20302lov"
 
         with self.assertRaises(ValueError):
