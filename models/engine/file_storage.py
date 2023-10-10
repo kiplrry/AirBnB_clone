@@ -3,6 +3,7 @@
 class File Storage
 """
 import json
+from pathlib import Path
 
 
 class FileStorage:
@@ -10,18 +11,7 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def __init__(self) -> None:
-        print("initing")
-        try:
-            with open(FileStorage.__file_path, "r"):
-                pass
-        except FileNotFoundError:
-            print("file not found on init")
-            with open(FileStorage.__file_path, "w+", encoding="utf-8") as fp:
-                fp.write("")
-
     def all(self):
-        print("all")
         return self.__class__.__objects
 
     def new(self, obj: object):
@@ -33,6 +23,7 @@ class FileStorage:
             json.dump(self.all(), fp)
 
     def reload(self):
-        with open(self.__class__.__file_path, "r", encoding="utf-8") as fp:
-            FileStorage.__objects = json.load(fp)
-            
+        if not Path(FileStorage.__file_path).exists():
+            self.save()
+        with open(self.__class__.__file_path, "+r", encoding="utf-8") as fp:
+                FileStorage.__objects = json.load(fp)
