@@ -6,6 +6,7 @@ from models.base_model import BaseModel
 import unittest
 import datetime
 
+
 class TestBaseModel(unittest.TestCase):
     def setUp(self):
         self.model1 = BaseModel()
@@ -20,7 +21,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(self.model1.id, self.model2.id)
         self.assertIsInstance(self.model1.id, str)
         self.assertIsInstance(self.model2.id, str)
-    
+
     def test_time(self):
         self.assertIsInstance(self.model1.created_at, datetime.datetime)
         self.assertIsInstance(self.model1.updated_at, datetime.datetime)
@@ -28,7 +29,7 @@ class TestBaseModel(unittest.TestCase):
         self.model1.save()
         self.assertIsInstance(self.model1.updated_at, datetime.datetime)
         self.assertNotEqual(self.model1.updated_at, self.model1.created_at)
-    
+
     def test_str(self):
         self.assertIsInstance(self.model1.__str__(), str)
         expected_str = f"[BaseModel] ({self.model1.id}) {self.model1.__dict__}"
@@ -39,4 +40,29 @@ class TestBaseModel(unittest.TestCase):
         dic = self.model1.to_dict()
         for key, val in self.model1.to_dict().items():
             self.assertIsInstance(val, str)
-        
+
+    def test_fromdict(self):
+        model3 = BaseModel()
+        dic1 = model3.to_dict()
+        model4 = BaseModel(**dic1)
+        dic2 = model4.to_dict()
+
+        self.assertNotEqual(model4, model3)
+        self.assertEqual(dic1, dic2)
+
+    def test_from_fake_dict(self):
+        model3 = BaseModel()
+        dic1 = model3.to_dict()
+        del dic1["id"]
+
+        with self.assertRaises(NameError):
+            model4 = BaseModel(**dic1)
+
+    def test_invalid_iso(self):
+        model3 = BaseModel()
+        dict1 = model3.to_dict()
+        print(f"dict= {dict1}")
+        dict1["created_at"] = "20302lov"
+
+        with self.assertRaises(ValueError):
+            BaseModel(**dict1)

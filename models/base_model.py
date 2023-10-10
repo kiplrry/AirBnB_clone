@@ -9,10 +9,23 @@ import datetime
 class BaseModel:
     """class basemodel"""
 
-    def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
+    def __init__(self, *args, **kwargs):
+        fields = ["__class__", "created_at", "updated_at", "id"]
+        """checking if kwargs is valid"""
+        if kwargs:
+            for i in fields:
+                if i not in kwargs:
+                    raise NameError(f"{i} was not found")
+            for key, val in kwargs.items():
+                if key in ["created_at", "updated_at"]:
+                    setattr(self, key, datetime.datetime.fromisoformat(val))
+                elif key != "__class__":
+                    setattr(self, key, val)
+                    
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.now()
+            self.updated_at = datetime.datetime.now()
 
     def __str__(self) -> str:
         return f"[BaseModel] ({self.id}) {self.__dict__}"
