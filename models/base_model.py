@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Base Class_
+Base Class
 """
 import uuid
 import datetime
