@@ -3,7 +3,8 @@
 class File Storage
 """
 import json
-from pathlib import Path
+# from pathlib import Path
+import os
 
 
 class FileStorage:
@@ -23,7 +24,11 @@ class FileStorage:
             json.dump(self.all(), fp)
 
     def reload(self):
-        if not Path(FileStorage.__file_path).exists():
+        if not os.path.exists(FileStorage.__file_path)\
+            or os.path.getsize(FileStorage.__file_path) == 0:
             self.save()
         with open(self.__class__.__file_path, "+r", encoding="utf-8") as fp:
+            try:
                 FileStorage.__objects = json.load(fp)
+            except json.decoder.JSONDecodeError as je:
+                raise ValueError("Inappropriate json file")
