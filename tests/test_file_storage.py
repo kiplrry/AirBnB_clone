@@ -47,4 +47,8 @@ class TestFileStorage(unittest.TestCase):
         
         with self.assertRaises(ValueError):
             self.filestorage.reload()
+    
+    def test_invalid_obj(self):
+        with self.assertRaises(AttributeError):
+            self.filestorage.new("lll")
 

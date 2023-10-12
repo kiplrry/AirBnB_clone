@@ -3,7 +3,6 @@
 class File Storage
 """
 import json
-# from pathlib import Path
 import os
 
 
@@ -17,7 +16,7 @@ class FileStorage:
 
     def new(self, obj: object):
         key = f"{obj.__class__.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj.to_dict()
+        FileStorage.__objects[key] = obj.to_dict()            
 
     def save(self):
         with open(FileStorage.__file_path, "w", encoding="utf-8") as fp:
@@ -31,4 +30,4 @@ class FileStorage:
             try:
                 FileStorage.__objects = json.load(fp)
             except json.decoder.JSONDecodeError as je:
-                raise ValueError("Inappropriate json file")
+                raise ValueError(f"Inappropriate json file")
