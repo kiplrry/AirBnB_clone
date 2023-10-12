@@ -4,7 +4,7 @@ Base Class
 """
 import uuid
 import datetime
-from . import storage
+from models import storage
 
 
 
@@ -13,8 +13,8 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         fields = ["__class__", "created_at", "updated_at", "id"]
-        """checking if kwargs is valid"""
         if kwargs:
+            """checking if kwargs is valid"""
             for i in fields:
                 if i not in kwargs:
                     raise NameError(f"{i} was not found")
@@ -39,8 +39,8 @@ class BaseModel:
         storage.save()
 
     def to_dict(self):
-        dic = dict.copy(self.__dict__)
-        dic["created_at"] = self.created_at.isoformat()
-        dic["updated_at"] = self.updated_at.isoformat()
-        dic["__class__"] = self.__class__.__name__
-        return dic
+        dictionary = dict.copy(self.__dict__)
+        dictionary["created_at"] = self.created_at.isoformat()
+        dictionary["updated_at"] = self.updated_at.isoformat()
+        dictionary["__class__"] = self.__class__.__name__
+        return dictionary

@@ -4,8 +4,6 @@ class File Storage
 """
 import json
 import os
-import importlib
-
 
 
 class FileStorage:
@@ -18,8 +16,7 @@ class FileStorage:
 
     def new(self, obj: object):
         key = f"{obj.__class__.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj
-        # print(f"in obj: {FileStorage.__objects}")          
+        FileStorage.__objects[key] = obj         
 
     def save(self):
         with open(FileStorage.__file_path, "w", encoding="utf-8") as fp:
