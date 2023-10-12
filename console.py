@@ -149,12 +149,3 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
-
-
-"""
-1. destroy isnt workig. check on **dictionary** well. What it returns
-2. all is supposed to return an array of 
-strings, not print everything in a forloop. Store in an 
-array first
-
-"""
