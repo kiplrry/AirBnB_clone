@@ -1,13 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 import cmd
-from models.base_model import BaseModel
 from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
-    models = {"BaseModel": BaseModel}
+    classes = storage.classes()
 
     def do_EOF(self):
         """End of File"""
@@ -26,111 +25,95 @@ class HBNBCommand(cmd.Cmd):
         and prints the id"""
         if not line:
             print("** class name missing **")
-        elif line not in HBNBCommand.models:
+        elif line not in HBNBCommand.classes:
             print("** class doesn't exist **")
         else:
-            newmod = HBNBCommand.models[line]()
+            newmod = HBNBCommand.classes[line]()
             newmod.save()
             print(newmod.id)
     
     def do_show(self, line):
-        """Prints the string representation
-        of an instance based on the class name and id"""
+        """
+        Prints the string representation of an instance based on the class\
+            name and id. Ex: $ show BaseModel 1234-1234-1234
+        """
         args = self.lineparser(line)
-        dic = self.instancedict(args)
-        if not dic: return
-        newMod = HBNBCommand.models[args[0]](**dic)
-        print(newMod)
-        del newMod
-
+        key = self.validate(args)
+        if not key: return
+        objdict = storage.all()
+        print(objdict[key])
+            
     def do_destroy(self, line):
-        """ Deletes an instance based on
-        the class name and id (save the 
-        change into the JSON file)"""
+        """
+        Deletes an instance based on the class name and id (save the\
+        change into the JSON file). Ex: $ destroy BaseModel 1234-1234-1234
+        """
         args = self.lineparser(line)
-        dictionary = self.instancedict(args)
-        if not dictionary: return
-        key = f"{args[0]}.{args[1]}"
+        key = self.validate(args)
+        if not key: return
         del storage.all()[key]
-        storage.save()
     
     def do_all(self, line):
-        """
-        Prints all string representation of 
-        all instances based or not on the class name. 
-        Ex: $ all BaseModel or $ all
-        """
-        print(type(line))
-        all_list = []
         if not line:
-            print("for all")
-            storage.reload()
-            objects = storage.all()
-            for key, dic in objects.items():
-                classname = key.split(".")[0]
-                if classname in HBNBCommand.models:
-                    newmodel = HBNBCommand.models[classname](**dic)
-                    all_list.append(str(newmodel))
-                    del newmodel
-        elif line not in HBNBCommand.models:
+            all_list = [str(obj) for obj in storage.all().values()]
+            print(all_list)
+            return
+
+        if line not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        else:
-            storage.reload()
-            objects = storage.all()
-            dictlist = [objects[key] for key in objects\
+        wantedlist = [str(obj) for key, obj in\
+                        storage.all().items()\
                         if key.startswith(line)]
-            for dic in dictlist:
-                newmodel = HBNBCommand.models[line](**dic)
-                all_list.append(str(newmodel))
-                del newmodel
-
-        print(all_list)
-
+        if wantedlist:
+            print(wantedlist)
+                
 
     def do_update(self, line):
         """
-        Updates an instance based on the class name and id by 
-        adding or updating attribute (save the change into the JSON file). 
+        Updates an instance based on the class name and id by adding\
+        or updating attribute (save the change into the JSON file).\
         Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com"
         """
         args = self.lineparser(line)
-        dictionary = self.instancedict(args)
-        if not dictionary: return
+        key  = self.validate(args)
+        if not key: return
         if len(args) < 3:
             print("** attribute name missing **")
+            return
+        elif args[2] in ["id", "create_at", "updated_at"]:
             return
         elif len(args) < 4:
             print("** value missing **")
             return
-        key, insId, attr, val = args
-        if attr not in ["id", "created_at", "updated_at"]\
-            and isinstance(attr, (int, str, float)):
-            dictionary[attr] = val
-            newmodel = BaseModel(**dictionary)
-            newmodel.save()
-            del newmodel
-
+        attr = args[2]
+        val = args[3]
+        objdict = storage.all()[key].to_dict()
+        objdict[attr] = val
+        inst = HBNBCommand.classes[args[0]](**objdict)
+        storage.new(inst)
+        storage.save()
+  
 
     @staticmethod
-    def instancedict(args):
-        """validates args and returns the dictionary"""
+    def validate(args):
+        """validates args and returns the key"""
         if not args:
             print("** class name missing **")
             return
-        elif args[0] not in HBNBCommand.models:
+        elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
             print("** instance id missing **")
             return
-        dic = storage.all()
         key = f"{args[0]}.{args[1]}"
-        if key not in dic:
+
+        if key not in storage.all():
             print("** no instance found **")
             return
         else:
-            return dic[key]
+            return key
 
     @staticmethod
     def lineparser(line):
@@ -138,14 +121,7 @@ class HBNBCommand(cmd.Cmd):
         if line:
             return line.split(" ")
         return None
-'''
-    @staticmethod
-    def attrvalparser(arg: str):
-        """Parses the attr value to appropriate type"""
-        pattern = re.compile(r"^(\d+\.\d+|\d+|([\"'].*[\"']))$",\
-                             re.MULTILINE)
 
-        match'''
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
