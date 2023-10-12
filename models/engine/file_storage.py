@@ -16,7 +16,8 @@ class FileStorage:
 
     def new(self, obj: object):
         key = f"{obj.__class__.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj         
+        FileStorage.__objects[key] = obj
+        
 
     def save(self):
         with open(FileStorage.__file_path, "w", encoding="utf-8") as fp:
@@ -38,7 +39,8 @@ class FileStorage:
                     for key, dic in loadeddict.items():
                         classname = key.split(".")[0]
                         classobj = self.classes()[classname]
-                        objects[key] = classobj(dic)
+                        objects[key] = classobj(**dic)
+                print("reloaded")
                 FileStorage.__objects = objects
             except json.decoder.JSONDecodeError as je:
                 raise ValueError(f"Inappropriate json file")
