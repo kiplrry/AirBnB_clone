@@ -2,11 +2,15 @@
 
 import cmd
 from models import storage
+import re
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     classes = storage.classes()
+
+    def do_test(self, line):
+        print(HBNBCommand.classes)
 
     def do_EOF(self):
         """End of File"""
@@ -56,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, line):
         if not line:
             all_list = [str(obj) for obj in storage.all().values()]
-            print(all_list)
+            if all_list: print(all_list)
             return
 
         if line not in HBNBCommand.classes:
@@ -65,9 +69,9 @@ class HBNBCommand(cmd.Cmd):
         wantedlist = [str(obj) for key, obj in\
                         storage.all().items()\
                         if key.startswith(line)]
-        if wantedlist:
-            print(wantedlist)
-                
+        
+        if wantedlist: print(wantedlist)
+
 
     def do_update(self, line):
         """
@@ -85,6 +89,9 @@ class HBNBCommand(cmd.Cmd):
             return
         elif len(args) < 4:
             print("** value missing **")
+            return
+        if args[3] is None:
+            print("** invalid value **")
             return
         attr = args[2]
         val = args[3]
@@ -116,10 +123,24 @@ class HBNBCommand(cmd.Cmd):
             return key
 
     @staticmethod
-    def lineparser(line):
+    def lineparser(line, num = -1):
         """Splits the line args and returns a list of them"""
+        pattern = re.compile(r"(\d+\.\d+|\d+|\"[^'\"]+?\"|'[^'\"]+?')$")
         if line:
-            return line.split(" ")
+            args = line.split(" ", num)
+            if len(args) > 3:
+                if re.match(pattern, args[3]):
+                    val = args[3].strip("\'\"")
+                    if val.isdigit():
+                            args[3] = int(val)
+                    else:
+                        try:
+                            args[3] = float(val)
+                        except ValueError:
+                            args[3] = str(val)
+                else:
+                    args[3] = None
+            return args              
         return None
 
 

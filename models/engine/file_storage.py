@@ -29,7 +29,7 @@ class FileStorage:
     def reload(self):
         if not os.path.exists(FileStorage.__file_path)\
             or os.path.getsize(FileStorage.__file_path) == 0:
-            self.save()
+            return
         with open(self.__class__.__file_path, "+r", encoding="utf-8")\
             as fp:
             try:
@@ -50,9 +50,25 @@ class FileStorage:
         """returns all valid classes"""
         from models.base_model import BaseModel
         from models.user import User
+        from models.review import Review
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+
         
         classes = {
             "BaseModel": BaseModel,
+<<<<<<< HEAD
             "User": User
                    }
+=======
+            "User": User,
+            "City": City,
+            "State": State,
+            "Amenity": Amenity,
+            "Review": Review,
+            "Place": Place
+            }
+>>>>>>> test
         return classes
