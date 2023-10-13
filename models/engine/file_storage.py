@@ -40,7 +40,7 @@ class FileStorage:
                         classname = key.split(".")[0]
                         classobj = self.classes()[classname]
                         objects[key] = classobj(**dic)
-                print("reloaded")
+
                 FileStorage.__objects = objects
             except json.decoder.JSONDecodeError as je:
                 raise ValueError(f"Inappropriate json file")
