@@ -59,10 +59,6 @@ class FileStorage:
         
         classes = {
             "BaseModel": BaseModel,
-<<<<<<< HEAD
-            "User": User
-                   }
-=======
             "User": User,
             "City": City,
             "State": State,
@@ -70,5 +66,4 @@ class FileStorage:
             "Review": Review,
             "Place": Place
             }
->>>>>>> test
         return classes
