@@ -13,8 +13,9 @@ class User(BaseModel):
     last_name = ""
 
     def __init__(self, *args, **kwargs):
-        print("user created")
-        super().__init__(*args, **kwargs)
+        self.email = User.email
+        self.password = User.password
+        self.first_name = User.first_name
+        self.last_name = User.last_name
 
-    def __str__(self):
-        return f"[User] ({self.id}) {self.__dict__}"
+        super().__init__(*args, **kwargs)
