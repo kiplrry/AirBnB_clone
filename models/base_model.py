@@ -7,7 +7,6 @@ import datetime
 from models import storage
 
 
-
 class BaseModel:
     """class basemodel"""
 

@@ -4,6 +4,7 @@ class Place
 """
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
     """Class Place inheriting BaseModel"""
     name = ""
@@ -25,8 +26,8 @@ class Place(BaseModel):
         self.number_bathrooms = Place.number_bathrooms
         self.max_guest = Place.max_guest
         self.price_by_night = Place.price_by_night
-        self.latitude = Place.latitude 
-        self.longitude = Place.longitude 
+        self.latitude = Place.latitude
+        self.longitude = Place.longitude
         self.amenity_ids = Place.amenity_ids
 
         super().__init__(*args, **kwargs)

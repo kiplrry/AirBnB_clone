@@ -48,7 +48,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         """
-        Deletes an instance based on the class name and id (save the 
+        Deletes an instance based on the class name and id (save the
         change into the JSON file). Ex: $ destroy BaseModel 1234-1234-1234
         """
         args = self.lineparser(line)
@@ -68,13 +68,11 @@ class HBNBCommand(cmd.Cmd):
         if line not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        wantedlist = [str(obj) for key, obj in\
-                        storage.all().items()\
-                        if key.startswith(line)]
+        wantedlist = [str(obj) for key, obj in storage.all().items()
+                      if key.startswith(line)]
 
         if wantedlist:
             print(wantedlist)
-
 
     def do_update(self, line):
         """
@@ -83,7 +81,7 @@ class HBNBCommand(cmd.Cmd):
         Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com"
         """
         args = self.lineparser(line)
-        key  = self.validate(args)
+        key = self.validate(args)
         if not key:
             return
         if len(args) < 3:
@@ -104,7 +102,6 @@ class HBNBCommand(cmd.Cmd):
         inst = HBNBCommand.classes[args[0]](**objdict)
         storage.new(inst)
         storage.save()
-
 
     @staticmethod
     def validate(args):
@@ -127,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
         return key
 
     @staticmethod
-    def lineparser(line, num = -1):
+    def lineparser(line, num=-1):
         """Splits the line args and returns a list of them"""
         pattern = re.compile(r"(\d+\.\d+|\d+|\"[^'\"]+?\"|'[^'\"]+?')$")
         if line:

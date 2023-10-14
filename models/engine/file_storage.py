@@ -20,7 +20,6 @@ class FileStorage:
         key = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects[key] = obj
 
-
     def save(self):
         """saves the object dict to a file"""
         with open(FileStorage.__file_path, "w", encoding="utf-8") as fp:
@@ -31,11 +30,10 @@ class FileStorage:
 
     def reload(self):
         """reloads objects from the file"""
-        if not os.path.exists(FileStorage.__file_path)\
-            or os.path.getsize(FileStorage.__file_path) == 0:
+        filesize = os.path.getsize(FileStorage.__file_path)
+        if not os.path.exists(FileStorage.__file_path) or filesize == 0:
             return
-        with open(FileStorage.__file_path, "+r", encoding="utf-8")\
-            as fp:
+        with open(FileStorage.__file_path, "+r", encoding="utf-8") as fp:
             try:
                 objects = {}
                 loadeddict = json.load(fp)
@@ -60,7 +58,6 @@ class FileStorage:
         from models.state import State
         from models.city import City
 
-        
         classes = {
             "BaseModel": BaseModel,
             "User": User,
