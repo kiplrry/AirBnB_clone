@@ -12,14 +12,16 @@ class FileStorage:
     __objects = {}
 
     def all(self):
+        """reurns the objects"""
         return self.__class__.__objects
 
     def new(self, obj: object):
+        """saves a new object to object dict"""
         key = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects[key] = obj
-        
 
     def save(self):
+        """saves the object dict to a file"""
         with open(FileStorage.__file_path, "w", encoding="utf-8") as fp:
             properdict = {}
             for key, obj in FileStorage.__objects.items():
@@ -27,11 +29,12 @@ class FileStorage:
             json.dump(properdict, fp)
 
     def reload(self):
-        if not os.path.exists(FileStorage.__file_path)\
-            or os.path.getsize(FileStorage.__file_path) == 0:
+        """reloads objects from the file"""
+        if not os.path.exists(FileStorage.__file_path):
             return
-        with open(self.__class__.__file_path, "+r", encoding="utf-8")\
-            as fp:
+        if os.path.getsize(FileStorage.__file_path) == 0:
+            return
+        with open(FileStorage.__file_path, "+r", encoding="utf-8") as fp:
             try:
                 objects = {}
                 loadeddict = json.load(fp)
@@ -42,7 +45,7 @@ class FileStorage:
                         objects[key] = classobj(**dic)
 
                 FileStorage.__objects = objects
-            except json.decoder.JSONDecodeError as je:
+            except json.decoder.JSONDecodeError:
                 raise ValueError(f"Inappropriate json file")
 
     @staticmethod
@@ -56,7 +59,6 @@ class FileStorage:
         from models.state import State
         from models.city import City
 
-        
         classes = {
             "BaseModel": BaseModel,
             "User": User,

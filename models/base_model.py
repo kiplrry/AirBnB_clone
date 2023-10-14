@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """
-Base Class
+Base Class__
 """
 import uuid
 import datetime
 from models import storage
-
 
 
 class BaseModel:
@@ -14,7 +13,6 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         fields = ["__class__", "created_at", "updated_at", "id"]
         if kwargs:
-            """checking if kwargs is valid"""
             for i in fields:
                 if i not in kwargs:
                     raise NameError(f"{i} was not found")
@@ -34,10 +32,12 @@ class BaseModel:
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
+        """Saves the object in storage"""
         self.updated_at = datetime.datetime.now()
         storage.save()
 
     def to_dict(self):
+        """returns a dictionary representation of the object"""
         dictionary = dict.copy(self.__dict__)
         dictionary["created_at"] = self.created_at.isoformat()
         dictionary["updated_at"] = self.updated_at.isoformat()
