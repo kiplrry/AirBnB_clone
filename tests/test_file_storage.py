@@ -30,7 +30,7 @@ class TestFileStorage(unittest.TestCase):
     def test_nofile(self):
         self.assertFalse(os.path.exists(storagepath))
         self.filestorage.reload()
-        self.assertTrue(os.path.exists(storagepath))
+        self.assertFalse(os.path.exists(storagepath))
 
     def test_emptyfile(self):
         self.delfile()
