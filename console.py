@@ -1,25 +1,23 @@
 #!/usr/bin/python3
-
+"""Con"""
+import re
 import cmd
 from models import storage
-import re
 
 
 class HBNBCommand(cmd.Cmd):
+    """HBNBComand class that inherits from Cmd class"""
     prompt = "(hbnb) "
     classes = storage.classes()
-
-    def do_test(self, line):
-        print(HBNBCommand.classes)
 
     def do_EOF(self):
         """End of File"""
         return True
-    
+
     def do_quit(self):
         """Quit command to exit the program"""
         return True
-    
+
     def emptyline(self):
         pass
 
@@ -35,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
             newmod = HBNBCommand.classes[line]()
             newmod.save()
             print(newmod.id)
-    
+
     def do_show(self, line):
         """
         Prints the string representation of an instance based on the class\
@@ -43,10 +41,11 @@ class HBNBCommand(cmd.Cmd):
         """
         args = self.lineparser(line)
         key = self.validate(args)
-        if not key: return
+        if not key:
+            return
         objdict = storage.all()
         print(objdict[key])
-            
+
     def do_destroy(self, line):
         """
         Deletes an instance based on the class name and id (save the 
@@ -54,13 +53,16 @@ class HBNBCommand(cmd.Cmd):
         """
         args = self.lineparser(line)
         key = self.validate(args)
-        if not key: return
+        if not key:
+            return
         del storage.all()[key]
-    
+
     def do_all(self, line):
+        """Prints all occurences of an object class"""
         if not line:
             all_list = [str(obj) for obj in storage.all().values()]
-            if all_list: print(all_list)
+            if all_list:
+                print(all_list)
             return
 
         if line not in HBNBCommand.classes:
@@ -69,8 +71,9 @@ class HBNBCommand(cmd.Cmd):
         wantedlist = [str(obj) for key, obj in\
                         storage.all().items()\
                         if key.startswith(line)]
-        
-        if wantedlist: print(wantedlist)
+
+        if wantedlist:
+            print(wantedlist)
 
 
     def do_update(self, line):
@@ -81,13 +84,14 @@ class HBNBCommand(cmd.Cmd):
         """
         args = self.lineparser(line)
         key  = self.validate(args)
-        if not key: return
+        if not key:
+            return
         if len(args) < 3:
             print("** attribute name missing **")
             return
-        elif args[2] in ["id", "create_at", "updated_at"]:
+        if args[2] in ["id", "create_at", "updated_at"]:
             return
-        elif len(args) < 4:
+        if len(args) < 4:
             print("** value missing **")
             return
         if args[3] is None:
@@ -100,27 +104,27 @@ class HBNBCommand(cmd.Cmd):
         inst = HBNBCommand.classes[args[0]](**objdict)
         storage.new(inst)
         storage.save()
-  
+
 
     @staticmethod
     def validate(args):
         """validates args and returns the key"""
         if not args:
             print("** class name missing **")
-            return
-        elif args[0] not in HBNBCommand.classes:
+            return None
+        if args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
-            return
+            return None
         if len(args) < 2:
             print("** instance id missing **")
-            return
+            return None
         key = f"{args[0]}.{args[1]}"
 
         if key not in storage.all():
             print("** no instance found **")
-            return
-        else:
-            return key
+            return None
+
+        return key
 
     @staticmethod
     def lineparser(line, num = -1):
@@ -132,7 +136,7 @@ class HBNBCommand(cmd.Cmd):
                 if re.match(pattern, args[3]):
                     val = args[3].strip("\'\"")
                     if val.isdigit():
-                            args[3] = int(val)
+                        args[3] = int(val)
                     else:
                         try:
                             args[3] = float(val)
@@ -140,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
                             args[3] = str(val)
                 else:
                     args[3] = None
-            return args              
+            return args
         return None
 
 
