@@ -8,7 +8,7 @@ import datetime
 
 
 class TestBaseModel(unittest.TestCase):
-    """Test for BaseModel."""
+    """Test for BaseModel"""
     def setUp(self):
         self.model1 = BaseModel()
         self.model2 = BaseModel()
