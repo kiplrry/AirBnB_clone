@@ -67,7 +67,6 @@ class HBNBCommand(cmd.Cmd):
             all_list = [str(obj) for obj in storage.all().values()]
             if all_list:
                 print(all_list)
-            
 
         if line not in HBNBCommand.classes:
             print("** class doesn't exist **")
@@ -77,7 +76,6 @@ class HBNBCommand(cmd.Cmd):
 
         if wantedlist:
             print(wantedlist)
-        
 
     def do_update(self, line):
         """
@@ -107,32 +105,6 @@ class HBNBCommand(cmd.Cmd):
         inst = HBNBCommand.classes[args[0]](**objdict)
         storage.new(inst)
         storage.save()
-
-    def default(self, line: str):
-        classname, command = line.split(".")
-        if classname not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        if command == "all()":
-            self.do_all(classname)
-        if command == "count()":
-            
-            classlist = [str(obj) for key, obj in storage.all().items()
-                      if key.startswith(classname)]
-            print(len(classlist))
-            return
-        if command.startswith("show(") and command.endswith(")"):
-            self.show(classname, command)
-
-    
-    def show(self, classname, command):
-        pattern = re.compile(r"^show\((\".*\"|'.*')\)$")
-        instid = re.search(pattern, command).groups()[0]
-        if instid:
-            instid = instid.strip("\"'")
-            showstr = f"{classname} {instid}"
-            self.do_show(showstr)
-
 
     @staticmethod
     def validate(args):
