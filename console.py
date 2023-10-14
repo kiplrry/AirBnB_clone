@@ -10,16 +10,19 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     classes = storage.classes()
 
-    def do_EOF(self):
+    def do_EOF(self, line):
         """End of File"""
         return True
 
-    def do_quit(self):
+    def do_quit(self, line):
         """Quit command to exit the program"""
         return True
 
     def emptyline(self):
         pass
+
+    def postloop(self) -> None:
+        print()
 
     def do_create(self, line):
         """Creates a new instance of BaseModel,
@@ -56,6 +59,7 @@ class HBNBCommand(cmd.Cmd):
         if not key:
             return
         del storage.all()[key]
+        storage.save()
 
     def do_all(self, line):
         """Prints all occurences of an object class"""
@@ -63,7 +67,7 @@ class HBNBCommand(cmd.Cmd):
             all_list = [str(obj) for obj in storage.all().values()]
             if all_list:
                 print(all_list)
-            return
+            
 
         if line not in HBNBCommand.classes:
             print("** class doesn't exist **")
@@ -73,6 +77,7 @@ class HBNBCommand(cmd.Cmd):
 
         if wantedlist:
             print(wantedlist)
+        
 
     def do_update(self, line):
         """
@@ -102,6 +107,32 @@ class HBNBCommand(cmd.Cmd):
         inst = HBNBCommand.classes[args[0]](**objdict)
         storage.new(inst)
         storage.save()
+
+    def default(self, line: str):
+        classname, command = line.split(".")
+        if classname not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        if command == "all()":
+            self.do_all(classname)
+        if command == "count()":
+            
+            classlist = [str(obj) for key, obj in storage.all().items()
+                      if key.startswith(classname)]
+            print(len(classlist))
+            return
+        if command.startswith("show(") and command.endswith(")"):
+            self.show(classname, command)
+
+    
+    def show(self, classname, command):
+        pattern = re.compile(r"^show\((\".*\"|'.*')\)$")
+        instid = re.search(pattern, command).groups()[0]
+        if instid:
+            instid = instid.strip("\"'")
+            showstr = f"{classname} {instid}"
+            self.do_show(showstr)
+
 
     @staticmethod
     def validate(args):

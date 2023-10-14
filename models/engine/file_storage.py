@@ -30,8 +30,9 @@ class FileStorage:
 
     def reload(self):
         """reloads objects from the file"""
-        filesize = os.path.getsize(FileStorage.__file_path)
-        if not os.path.exists(FileStorage.__file_path) or filesize == 0:
+        if not os.path.exists(FileStorage.__file_path):
+            return
+        if os.path.getsize(FileStorage.__file_path) == 0:
             return
         with open(FileStorage.__file_path, "+r", encoding="utf-8") as fp:
             try:
