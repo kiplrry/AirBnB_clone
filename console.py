@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Con"""
+"""AirBnB Console"""
 import re
 import cmd
 from models import storage
