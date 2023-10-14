@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 Base Class__
 """
 import uuid
 import datetime
-from . import storage
+from models import storage
 
 
 class BaseModel:
@@ -12,7 +12,6 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         fields = ["__class__", "created_at", "updated_at", "id"]
-        """checking if kwargs is valid"""
         if kwargs:
             for i in fields:
                 if i not in kwargs:
@@ -30,16 +29,17 @@ class BaseModel:
             storage.new(self)
 
     def __str__(self) -> str:
-        return f"[BaseModel] ({self.id}) {self.__dict__}"
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
+        """Saves the object in storage"""
         self.updated_at = datetime.datetime.now()
-        storage.new(self)
         storage.save()
 
     def to_dict(self):
-        dic = dict.copy(self.__dict__)
-        dic["created_at"] = self.created_at.isoformat()
-        dic["updated_at"] = self.updated_at.isoformat()
-        dic["__class__"] = self.__class__.__name__
-        return dic
+        """returns a dictionary representation of the object"""
+        dictionary = dict.copy(self.__dict__)
+        dictionary["created_at"] = self.created_at.isoformat()
+        dictionary["updated_at"] = self.updated_at.isoformat()
+        dictionary["__class__"] = self.__class__.__name__
+        return dictionary
