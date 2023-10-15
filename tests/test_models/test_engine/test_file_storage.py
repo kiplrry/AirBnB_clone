@@ -1,12 +1,17 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
+"""Defines class FileStorage."""
+
 from models.engine.file_storage import FileStorage
 import unittest
 import os
 
+
 storagepath = FileStorage._FileStorage__file_path
 fileobjects = FileStorage._FileStorage__objects
 
+
 class TestFileStorage(unittest.TestCase):
+    """Test for FileStorage."""
     def setUp(self) -> None:
         self.filestorage = FileStorage()
 
@@ -40,15 +45,14 @@ class TestFileStorage(unittest.TestCase):
         filesize = os.path.getsize(storagepath)
         self.assertEqual(filesize, 0)
         self.assertIsNotNone(self.noraises(self.filestorage.reload))
-    
+
     def test_invalid_file(self):
         with open(storagepath, "w") as fp:
             fp.write("feiheihi")
-        
+
         with self.assertRaises(ValueError):
             self.filestorage.reload()
-    
+
     def test_invalid_obj(self):
         with self.assertRaises(AttributeError):
             self.filestorage.new("lll")
-
