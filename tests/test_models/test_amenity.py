@@ -22,8 +22,8 @@ class TestAmenity(unittest.TestCase):
         self.assertIsInstance(self.amenity, BaseModel)
 
     def test_storage(self):
-        key = f"{self.state.__class__.__name__}.{self.state.id}"
-        self.assertTrue(key in storage.all())# stored with name "state"
+        key = f"{self.amenity.__class__.__name__}.{self.amenity.id}"
+        self.assertTrue(key in storage.all())# stored with name "amenity"
 
     def test_types(self):
-        self.assertIsInstance(self.state.name, str)
+        self.assertIsInstance(self.amenity.name, str)
