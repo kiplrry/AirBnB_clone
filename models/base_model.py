@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Base Class__
-"""
+"""Base Class for the other classes"""
 import uuid
 import datetime
 from models import storage

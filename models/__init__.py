@@ -1,6 +1,4 @@
-"""
-Docstring
-"""
+"""Module for the classes"""
 from .engine.file_storage import FileStorage
 
 
