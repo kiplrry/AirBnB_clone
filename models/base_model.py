@@ -9,6 +9,7 @@ class BaseModel:
     """class basemodel"""
 
     def __init__(self, *args, **kwargs):
+        """initializing the baseclass"""
         fields = ["__class__", "created_at", "updated_at", "id"]
         if kwargs:
             for i in fields:
@@ -27,6 +28,7 @@ class BaseModel:
             storage.new(self)
 
     def __str__(self) -> str:
+        """How the instance is to be printed"""
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
