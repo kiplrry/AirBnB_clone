@@ -2,9 +2,9 @@
 """
 a test for BaseModel
 """
-from models.base_model import BaseModel
 import unittest
 import datetime
+from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
