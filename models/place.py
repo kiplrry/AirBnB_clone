@@ -7,6 +7,7 @@ from models.base_model import BaseModel
 
 class Place(BaseModel):
     """Class Place inheriting BaseModel"""
+    city_id = ""
     name = ""
     user_id = ""
     description = ""
@@ -19,6 +20,7 @@ class Place(BaseModel):
     amenity_ids = []
 
     def __init__(self, *args, **kwargs):
+        self.city_id = Place.city_id
         self.name = Place.name
         self.user_id = Place.user_id
         self.description = Place.description
