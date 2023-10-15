@@ -109,32 +109,32 @@ class HBNBCommand(cmd.Cmd):
         storage.new(inst)
         storage.save()
 
-    # def default(self, line: str):
-    #     if line.find(".") < 1:
-    #         return
-    #     classname, command = line.split(".", 1)
-    #     if classname not in HBNBCommand.classes:
-    #         print("** class doesn't exist **")
-    #         return
-    #     if not command:
-    #         return
-    #     method, arg = self.commandparser(command)
+    def default(self, line: str):
+        if line.find(".") < 1:
+            return
+        classname, command = line.split(".", 1)
+        if classname not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        if not command:
+            return
+        method, arg = self.commandparser(command)
 
-    #     if arg:
-    #         linestr = f"{classname} {arg}"
-    #     else:
-    #         linestr = classname
-    #     match method:
-    #         case "all()":
-    #             self.do_all(classname)
-    #         case "destroy()":
-    #             self.do_destroy(linestr)
-    #         case "count()":
-    #             self.count(classname)
-    #         case "show()":
-    #             self.do_show(linestr)
-    #         case _:
-    #             return
+        if arg:
+            linestr = f"{classname} {arg}"
+        else:
+            linestr = classname
+
+        if method == "all()":
+            self.do_all(classname)
+        elif method == "destroy()":
+            self.do_destroy(linestr)
+        elif method == "count()":
+            self.count(classname)
+        elif method == "show()":
+            self.do_show(linestr)
+        else:
+            return
 
     @staticmethod
     def count(classname):
