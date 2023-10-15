@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 from models.amenity import Amenity
 from models import storage
 
+
 class TestAmenity(unittest.TestCase):
     """Tests for Amenity."""
 
@@ -23,7 +24,7 @@ class TestAmenity(unittest.TestCase):
 
     def test_storage(self):
         key = f"{self.amenity.__class__.__name__}.{self.amenity.id}"
-        self.assertTrue(key in storage.all())# stored with name "amenity"
+        self.assertTrue(key in storage.all())  # stored with name "amenity"
 
     def test_types(self):
         self.assertIsInstance(self.amenity.name, str)

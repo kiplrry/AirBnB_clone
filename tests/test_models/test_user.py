@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 from models.user import User
 from models import storage
 
+
 class TestUser(unittest.TestCase):
     """Tests for User."""
 
@@ -23,7 +24,7 @@ class TestUser(unittest.TestCase):
 
     def test_storage(self):
         key = f"{self.new_user.__class__.__name__}.{self.new_user.id}"
-        self.assertTrue(key in storage.all())# stored with name "user"
+        self.assertTrue(key in storage.all())  # stored with name "user"
 
     def test_types(self):
         self.assertIsInstance(self.new_user.password, str)

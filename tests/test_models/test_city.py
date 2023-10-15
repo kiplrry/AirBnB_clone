@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 from models.city import City
 from models import storage
 
+
 class TestCity(unittest.TestCase):
     """Tests for City."""
 
@@ -23,7 +24,7 @@ class TestCity(unittest.TestCase):
 
     def test_storage(self):
         key = f"{self.city.__class__.__name__}.{self.city.id}"
-        self.assertTrue(key in storage.all())# stored with name "city"
+        self.assertTrue(key in storage.all())  # stored with name "city"
 
     def test_types(self):
         self.assertIsInstance(self.city.name, str)
