@@ -23,8 +23,8 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         pass
 
-    def postloop(self) -> None:
-        print()
+    # def postloop(self) -> None:
+    #     print()
 
     def do_create(self, line):
         """Creates a new instance of BaseModel,
@@ -72,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         if line not in HBNBCommand.classes:
-            print("** class doesn't exist**")
+            print("** class doesn't exist **")
             return
         wantedlist = [str(obj) for key, obj in storage.all().items()
                       if key.startswith(line)]
