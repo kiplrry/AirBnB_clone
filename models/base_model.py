@@ -6,7 +6,7 @@ from models import storage
 
 
 class BaseModel:
-    """class basemodel"""
+    """class basemodel, base class for all other classes"""
 
     def __init__(self, *args, **kwargs):
         """initializing the baseclass"""
