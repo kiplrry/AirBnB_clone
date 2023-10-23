@@ -133,8 +133,32 @@ class HBNBCommand(cmd.Cmd):
             self.count(classname)
         elif method == "show()":
             self.do_show(linestr)
+        elif method == "update()":
+            print("uppp")
+            self.update(classname, command)
         else:
             return
+
+    def update(self, classname, line: str):
+        """used when <clasname>.update(<arg>) is called"""
+        if not line:
+            return
+        line.replace(" ", "")
+        pattern = re.compile(r"^update\((.*)\)$")
+        print(f"pat: {pattern}")
+        if not pattern:
+            return
+        patmatch = re.match(pattern, line)
+        arg = patmatch.group(1)
+        arglist = arg.split(",")
+        arglist = [arg.strip("\"\'") for arg in arglist]
+        print(arglist)
+        if len(arglist) == 3:
+            instid, attr, val = arglist
+            string = f"{classname} {instid} {attr} {val}"
+            self.do_update(string)
+            return
+            
 
     @staticmethod
     def count(classname):
