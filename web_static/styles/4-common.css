@@ -1,7 +1,6 @@
 @import "4-header.css";
-@import "4-footer.css";
-@import "4-headers.css";
-@import "4-filters.css";
+@import "3-footer.css";
+@import "5-filters.css";
 body{
     margin: 0px;
     padding: 0px;
@@ -14,5 +13,4 @@ body{
     margin-block: 30px;
     margin-inline: auto;
     height: 30px;
-    /* border: #000 solid 1px; */
 }
