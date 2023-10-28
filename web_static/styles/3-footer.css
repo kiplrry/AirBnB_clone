@@ -3,10 +3,8 @@ footer{
     flex-direction: row; 
     align-items: center;
     justify-content: center; 
-    background-color : #fff;
     border-top: #ccc 1px solid; 
     height: 60px; 
-    width: 100%; 
-    position: fixed; 
-    bottom: 0;
+    width: 100%;
+    bottom: 0px;
 }

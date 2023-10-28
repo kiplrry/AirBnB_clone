@@ -18,17 +18,29 @@
     width: 20%;
     border-radius: 4px;
     margin-right: 20px;
+    margin-left: 25%;
 }
 .filters button:hover{
     opacity: 0.9;
 }
+.filtnames{
+    width: 50%;
+    height: 100%;
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .amenities, .locations{
     display: flex;
-    height: 100%;
-    width: 25%;
     align-items: center;
     justify-content: center;
+    /* background-color: aqua; */
+    flex-grow: 1;
+    height: 100%;
 }
+
 .locations{
     border-right: 1px #DDD solid;
 }
