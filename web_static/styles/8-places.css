@@ -28,7 +28,6 @@ cl
     justify-self: center;
 }
 .art_cont{
-    /* border: #FF5A5F 1px solid; */
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
@@ -61,7 +60,6 @@ cl
     align-items: center;
     justify-content: center;
     width: 100px;
-    /* border: 1px #FF5A5F solid; */
 }
 .information div > .info_icon{
     width: 50px;

@@ -27,7 +27,6 @@
 .filtnames{
     width: 50%;
     height: 100%;
-    /* border: 1px solid red; */
     display: flex;
     align-items: flex-start;
 }
@@ -35,17 +34,13 @@
 .amenities, .locations{
     display: flex;
     align-items: center;
-    /* justify-content: center; */
     flex-direction: column;
-    /* background-color: aqua; */
     flex-grow: 1;
     max-width: 50%;
     min-height: calc(100%);
-    /* background-color: aqua; */
 }
 
 .infocont{
-    /* background-color: aquamarine; */
     height: calc(var(--FILTERHEIGHT) - 2px);
     display: flex;
     flex-direction: column;
@@ -55,7 +50,6 @@
 .locations{
     border-right: 1px #DDD solid;
     border-radius: 0 0 4px;
-    /* border-radius: 0 0 4px 4px; */
 }
 .opts{
     z-index: 10;
