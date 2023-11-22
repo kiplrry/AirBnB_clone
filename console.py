@@ -2,6 +2,7 @@
 """
 AirBnB Console
 """
+import sys
 import re
 import cmd
 from models import storage
@@ -23,8 +24,9 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         pass
 
-    # def postloop(self) -> None:
-    #     print()
+    def postloop(self) -> None:
+        if not sys.__stdin__.isatty():
+            print()
 
     def do_create(self, line):
         """Creates a new instance of BaseModel,
